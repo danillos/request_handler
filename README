@@ -12,6 +12,11 @@ include 'RequestHandler.php';
 
 // Create a request object
 // To get parameters, $request->params['key'];
+
+
+$request = new RequestHandler($route,dirname(__FILE__));
+or
+define('ROOT', dirname(__FILE__));
 $request = new RequestHandler($route);
 
 
