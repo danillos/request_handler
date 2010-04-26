@@ -38,3 +38,19 @@ if ($request->valid) {
 	header("HTTP/1.0 404 Not Found");
 	die();
 }
+
+
+
+
+
+// htaccess
+
+RewriteEngine On
+
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# otherwise forward it to index.php
+RewriteRule .* index.php
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
