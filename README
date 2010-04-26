@@ -1,0 +1,35 @@
+How to use:
+
+// Configure your routes
+$route['get']['/'] = array('Main','index');
+$route['get']['/blog'] = array('Blog','index');
+$route['get']['/blog/:id'] = array('Blog','show');
+
+
+// Include file class
+include 'RequestHandler.php';
+
+
+// Create a request object
+// To get parameters, $request->params['key'];
+$request = new RequestHandler($route);
+
+
+// If route is valid
+if ($request->valid) {
+
+	// Get controller name
+	$controller_name = $request->controller_name."Controller";
+	
+	// Include controller class
+	include(ROOT.'/controllers/'.$controller_name.'.php');
+	
+	// Create Controller class
+	$controller = new $controller_name($request);
+	
+	// Fire controller action.
+	$controller->$request->action_name();
+}else{
+	header("HTTP/1.0 404 Not Found");
+	die();
+}
