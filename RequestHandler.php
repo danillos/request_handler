@@ -26,10 +26,9 @@
 			if(is_array($route)) {
 				$this->controller_name = $route[0];
 				$this->action_name = $route[1] ? $route[1] : 'index';
+				// TODO: Verificar se ta ok
+				$this->params = array_merge($this->params, $_GET, $_POST);
 				
-				if(!empty($_GET)){
-					$this->params = array_merge($this->params, $_GET);
-				}
 				$this->valid = true;
 			}
 		}
@@ -60,7 +59,10 @@
 				}else{
 					$route_list = $route[$method];
 				}
-
+				
+				// Se não existe rota já retorna false.
+				if(empty($route_list)) return false;
+				
 				// Retorna rota se ela for estática.
         if(isset($route_list[$uri[0]])) {
 					return $route_list[$uri[0]];
@@ -71,15 +73,15 @@
 				
 				$uri[0] = substr($uri[0],1);
         $uri_parts = explode('/', $uri[0]);
-
+				
 				foreach ($route_list as $route => $values) {
 					$route = substr($route,1);
 					$route_parts = explode('/', $route);
 					// Pula caso seja o root.
 					if(!$route) continue;
 					
-					// Pula se quantidade de partes for diferente
-					#if(sizeof($uri_parts) !== sizeof($route_parts) ) continue;
+					// Pula se quantidade de partes for diferente.
+					if(sizeof($uri_parts) !== sizeof($route_parts) ) continue;
 					
 					// Pula se parte estatica for diferente.
 					$static = explode(':',$route);
@@ -92,7 +94,7 @@
 					$route_regex = $route;
 					$route_regex = str_replace('/','\/',$route_regex);
 					foreach ($p_names as $name) {
-						$route_regex = str_replace($name,'([a-zA-Z0-9_\+\-%]+)',$route_regex);
+						$route_regex = str_replace($name,'([.a-zA-Z0-9_\+\-%]+)',$route_regex);
 					}		
 					if(preg_match('/'.$route_regex.'/' , $uri[0], $matches) === 1){
 						array_shift($matches);
