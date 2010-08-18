@@ -2,7 +2,8 @@
 /**
  * Class to add route system in ours applications.
  * 
- * This class is based on DooPHP Router and dan (http://blog.sosedoff.com/) url router.
+ * This class was based on the DooPHP Router and dan(http://blog.sosedoff.com/) url router.
+ * Thanks.
  *
  * @author Danillo César danillos@gmail.com.br
  */
@@ -50,7 +51,7 @@ class RequestHandler {
 	public $method;
 
 	/**
-	 * Carrega a rota através da função getRoute
+	 * RequestHandler Constructor
 	 *
 	 * @param array $route Rota para redirecionamento de página
 	 * @param string $app_root Endereço da pasta app do site
@@ -149,7 +150,7 @@ class RequestHandler {
 	}
 
 	/**
-	 * Redirecionamento para uma URL externa, com cabeçalho HTTP 302 enviados por padrão
+	 * Redirect to on external URL, with header status HTTP 302 by default
 	 *
 	 * @access public
 	 * @param string $location URL of the redirect location
@@ -175,7 +176,7 @@ class RequestHandler {
 	}
 
 	/**
-	 * Remove the slash(/) from the last char.
+	 * Remove slash from last char.
 	 *
 	 * @access public
 	 * @param string $str
