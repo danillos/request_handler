@@ -1,4 +1,18 @@
-How to use:
+# How to use:
+
+// Basic routes.
+// $route['get']['/blog'] = array('Blog','index');	
+// 	
+// Routes with vars.
+// $route['get']['/tag/:tag'] = array('Blog','tags');
+// 	
+// Routes with vars and regex.
+// $route['get']['/tag/:tag'] = array('Blog','tags',':tag'=>'[a-zA-Z0-9_]');
+// 	
+// Redirect routes.
+// $route['*']['/twitter'] = array('redirect'=>'http://twitter.com');
+// $route['*']['/twitter'] = array('redirect'=>'http://twitter.com',302);
+
 
 // Configure your routes
 $route['get']['/'] = array('Main','index');
@@ -43,7 +57,7 @@ if ($request->valid) {
 
 
 
-// htaccess
+# .htaccess (required)
 
 RewriteEngine On
 
