@@ -14,6 +14,16 @@ Routes with vars and regex:
 
 	$route['get']['/tag/:tag'] = array('Blog','tags',':tag'=>'[a-zA-Z0-9_]');
 	
+	
+Named routes:
+
+	$route['get']['/blog'] = array('Blog','index','as'=>'blog');
+	$request->blog_path(); //=> /blog  
+	
+	$route['get']['/tag/:tag'] = array('Blog','tags','as'=>'tag');
+	$request->tag_path('your-tag-name'); //=> /tag/your-tag-name/
+	
+	
 Redirect routes:
 
 	$route['*']['/twitter'] = array('redirect'=>'http://twitter.com');
