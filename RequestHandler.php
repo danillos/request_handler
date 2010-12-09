@@ -1,5 +1,11 @@
 <?php
 /**
+ * Drumon Framework: Build fast web applications
+ * Copyright (C) 2010 Sook - Desenvolvendo inovações (http://www.sook.com.br)
+ * Licensed under GNU General Public License.
+ */
+
+/**
  * Class to add route system in ours applications.
  * 
  * This class is based on DooPHP Router and dan (http://blog.sosedoff.com/) url router.
@@ -89,6 +95,26 @@ class RequestHandler {
 			$this->valid = true;
 		}
 	}
+	
+	/**
+	 * Set action name
+	 *
+	 * @param string $name 
+	 * @return void
+	 */
+	public function set_action_name($name) {
+		$this->action_name = $name;
+	}
+	
+	/**
+	 * Set controller name
+	 *
+	 * @param string $name 
+	 * @return void
+	 */
+	public function set_controller_name($name) {
+		$this->controller_name = $name;
+	}
 
 	/**
 	 * Search for a valid route.
@@ -99,7 +125,8 @@ class RequestHandler {
 	 * @return mixed - False, se não existir rota / Array com a Lista de Rotas.
 	 */
 	public function get_route($route, $app_root) {
-		$this->method = isset($_REQUEST['_method']) ? strtolower($_REQUEST['_method']) : strtolower($_SERVER['REQUEST_METHOD']);
+		
+		$this->method = (isset($_REQUEST['_method']) && strtolower($_SERVER['REQUEST_METHOD']) == 'post') ? strtolower($_REQUEST['_method']) : strtolower($_SERVER['REQUEST_METHOD']);
 
 		$subfolder = str_replace($_SERVER['DOCUMENT_ROOT'], '', str_replace('\\','/',$app_root));
 		$uri = str_replace($subfolder,'', $_SERVER['REQUEST_URI']);
@@ -119,8 +146,12 @@ class RequestHandler {
 			// Pega as rotas defindas com o método requisitado e junta com o geral.
 			if(isset($route[$this->method])) {
 				$route_list = array_merge($route_list, $route[$this->method]);
+				//if($route_list != NULL) {
+				//$route_list = array_merge($route_list, $route[$this->method]);
+				//}else{
+				//$route_list = $route[$this->method];
+				//}
 			}
-			
 			// Se não existe rota já retorna false.
 			if(empty($route_list)) return false;
 			
@@ -186,19 +217,13 @@ class RequestHandler {
 
 		if(substr($name,-5,strlen($name)-1) === '_path') {
 			return $this->url_for($named_route,$arguments);
-		} else {
+		}else{
 			trigger_error('Method '.$name.' not exist');
 		}
 	}
 	
-	/**
-	 * Create a reverse url from a named route.
-	 *
-	 * @param string $named_route 
-	 * @param string $params 
-	 * @return void
-	 */
-	public function url_for($named_route, $params = array()) {
+	
+	public function url_for($named_route,$params = array()) {
 		
 		// Junta as rotas do método com as rotas que aceitam todos os métodos.
 		$route_list = array();
@@ -208,9 +233,7 @@ class RequestHandler {
 		if(isset($this->routes[$this->method])) {
 			$route_list = array_merge($route_list, $this->routes[$this->method]);
 		}
-		
 		$path = false;
-		
 		foreach ($route_list as $url => $route) {
 			if(isset($route['as']) && $route['as'] == $named_route ) {
 				

@@ -74,3 +74,14 @@ To get parameters use: `$request->params['key'];`
 ## .htaccess (required)
 
 Add .htaccess file to your app root folder.
+
+
+
+
+## Issues & Errata
+
+Please submit issues or errata through the [issue tracker on GitHub](http://github.com/danillos/request_handler/issues). Your help is appreciated.
+
+## Credits
+
+Designed and programmed by Danillo César.
